@@ -2,7 +2,7 @@
 
 Run a command with the ip address of all instances in a elastic load balancer
 
-## example
+## Example
 ```
 aws-elb-instance-runner my-elastic-load-balancer-DXZSR91UJMK4 echo
 10.0.6.59
