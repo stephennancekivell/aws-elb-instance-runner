@@ -16,5 +16,10 @@ you need to set the region in the environment variable: AWS_REGION, or configure
 Usage: aws-elb-instance-runner [elastic-load-balancer-id] [command]
 ```
 
+## Install
+```
+npm install -g aws-elb-instance-runner
+```
+
 ## Use cases
 This might be useful for writing deploy scripts.
