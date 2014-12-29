@@ -1,6 +1,6 @@
 {
   "name": "aws-elb-instance-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Run a command with the ip address of all instances in a elastic load balancer",
   "main": "index.js",
   "bin": {
