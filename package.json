@@ -1,7 +1,7 @@
 {
   "name": "aws-elb-instance-runner",
   "version": "1.0.0",
-  "description": "Run a command on all instances in a elastic load balancer",
+  "description": "Run a command with the ip address of all instances in a elastic load balancer",
   "main": "index.js",
   "bin": {
     "aws-elb-instance-runner": "./bin/aws-elb-instance-runner"
@@ -17,5 +17,9 @@
   "dependencies": {
     "aws-sdk": "^2.1.4",
     "underscore": "^1.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephennancekivell/aws-elb-instance-runner.git"
+  },
 }
