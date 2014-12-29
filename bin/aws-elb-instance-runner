@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+var AWS = require('aws-sdk');
+var _ = require('underscore');
+var spawn = require('child_process').spawn;
+
+var elb = new AWS.ELB();
+var ec2 = new AWS.EC2();
+
+function runCommandWithAddress(address){
+  var cmd = process.argv[2];
+  var cmdArgs = _.rest(process.argv, 3).concat(address);
+  console.log('starting process', cmd, cmdArgs);
+  spawn(cmd, cmdArgs, { stdio: 'inherit' });
+};
+
+function getAddressesFromElb(elbId, callback){
+  elb.describeInstanceHealth({
+    LoadBalancerName: elbId
+  }, function(err, data){
+    if (err){
+      console.error(err);
+    } else {
+      var instanceIds = _.map(data.InstanceStates, function(i){ return i.InstanceId});
+      if (instanceIds.length === 0){
+        console.error('no instances in load balancer');
+      } else {
+        ec2.describeInstances({
+          InstanceIds: instanceIds
+        }, function(err, data){
+          if(err){
+            console.error(err);
+          } else {
+            var ipAddresses = _.chain(data.Reservations)
+              .map(function(reservation) { return reservation.Instances; })
+              .flatten()
+              .map(function(instance){ return instance.PrivateIpAddress; })
+              .value();
+
+            callback(ipAddresses);
+          }
+        });
+      }
+    }
+  });
+}
+
+if (process.argv.length < 4){
+  console.log('Usage: aws-elb-instance-runner [elastic-load-balancer-id] [command]');
+} else {
+  var elbId = process.argv[2];
+  var cmd = process.argv[3];
+  var args = _.rest(process.argv, 4);
+  
+  getAddressesFromElb(elbId, function(ipAddresses){
+    _.each(ipAddresses, function(address){
+      var instanceArgs = [address].concat(args);
+
+      spawn(cmd, instanceArgs, { stdio: 'inherit' });
+    });
+  });
+}

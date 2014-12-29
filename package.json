@@ -1,0 +1,21 @@
+{
+  "name": "aws-elb-instance-runner",
+  "version": "1.0.0",
+  "description": "Run a command on all instances in a elastic load balancer",
+  "main": "index.js",
+  "bin": {
+    "aws-elb-instance-runner": "./bin/aws-elb-instance-runner"
+  },
+  "author": "Stephen Nancekivell",
+  "license": "ISC",
+  "keywords": [
+    "aws",
+    "ec2",
+    "elb",
+    "elastic load balancer"
+  ],
+  "dependencies": {
+    "aws-sdk": "^2.1.4",
+    "underscore": "^1.7.0"
+  }
+}
